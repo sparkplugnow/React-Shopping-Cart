@@ -5,12 +5,12 @@ const itemlist = (props) => {
     return (
         <div className="row">
             {props.list.map((item, index) => {
-                return (<div className="col-md-4"><Item 
+                return (<div key={item.id} className="col-md-4"><Item 
                     name={item.name}
                     price={item.price}
-                    key={item.id}
                     quantity={item.quantity}
-                    btn="Add to Cart"/></div>)
+                    click={() => props.clicked(item.id)}
+                    btn={props.btn}/></div>)
             })}
         </div>
     )

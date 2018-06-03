@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 
 import './App.css';
 import Inventory from '../components/Inventory/Inventory';
+import Cart from '../components/Cart/Cart';
 
 class App extends Component {
     state = {
@@ -14,17 +15,72 @@ class App extends Component {
         showCart: false
     };
 
+    addToCart = (id) => {
+        const inventoryIndex = this.state.inventory.findIndex(p => {
+            return p.id === id;
+        });
+
+        const inventoryItem = { ...this.state.inventory[inventoryIndex] };
+        inventoryItem.quantity -= 1;
+        const inventory = [...this.state.inventory];
+        inventory[inventoryIndex] = inventoryItem;
+
+
+        const cartIndex = this.state.cart.findIndex(c => {
+            return c.id === id;
+        });
+        let cart = [ ...this.state.cart ];
+        if (cartIndex >= 0) {
+            const cartItem = { ...this.state.cart[cartIndex] };
+            cartItem.quantity += 1;
+            cart[cartIndex] = cartItem;
+        } else {
+            const cartItem = { ...inventoryItem };
+            cartItem.quantity = 1;
+            cart.push(cartItem);
+        }
+        this.setState({inventory: inventory, cart: cart, showCart: false})
+    }
+
+    removeFromCart = (id) => {
+        const cartIndex = this.state.cart.findIndex(p => {
+            return p.id === id;
+        });
+
+        const cartItem = { ...this.state.cart[cartIndex] };
+        cartItem.quantity -= 1;
+        const cart = [...this.state.cart];
+        cart[cartIndex] = cartItem;
+
+
+        const inventoryIndex = this.state.inventory.findIndex(c => {
+            return c.id === id;
+        });
+        let inventory = [ ...this.state.inventory ];
+        const inventoryItem = { ...this.state.inventory[inventoryIndex] };
+        inventoryItem.quantity += 1;
+        inventory[inventoryIndex] = inventoryItem;
+    
+        this.setState({inventory: inventory, cart: cart, showCart: true})
+    }
+
+    toggleCart = () => {
+        const doesShow = this.state.showCart;
+        this.setState({showCart: !doesShow});
+    }
+
     render() {
         let items = null;
         if (this.state.showCart) {
-            items = this.state.cart
+            items = <Cart list={this.state.cart} clicked={this.removeFromCart} />
         } else {
-            items = <Inventory list={this.state.inventory} />
+            items = <Inventory list={this.state.inventory} clicked={this.addToCart} />
         }
 
         return (
-            <div>
-                <h1 className="text-center">Hi, Welcome to our shop</h1>
+            <div className="App">
+                <h1>Hi, Welcome to our shop</h1>
+                <button onClick={this.toggleCart} className="btn btn-primary">Toggle Cart</button>
                 {items}
             </div>
         )
