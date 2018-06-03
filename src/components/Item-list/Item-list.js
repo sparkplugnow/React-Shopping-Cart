@@ -2,19 +2,22 @@ import React from 'react'
 import Item from './Items/Items';
 
 const itemlist = (props) => {
+    
     return (
         <div className="row">
             {props.list.map((item, index) => {
-                return (<div key={item.id} className="col-md-4"><Item 
+                return (<Item 
                     name={item.name}
                     price={item.price}
                     quantity={item.quantity}
+                    key={item.id}
                     click={() => props.clicked(item.id)}
-                    btn={props.btn}/></div>)
+                    total={props.total}
+                    btn={props.btn}/>)
             })}
         </div>
     )
 
 }
 
-export default itemlist
+export default itemlist;

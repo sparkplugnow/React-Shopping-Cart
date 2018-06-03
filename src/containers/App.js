@@ -12,7 +12,7 @@ class App extends Component {
             {id: "three", name: "beans", price: 70, quantity: 3}
         ],
         cart: [],
-        showCart: false
+        showCart: false,
     };
 
     addToCart = (id) => {
@@ -39,7 +39,7 @@ class App extends Component {
             cartItem.quantity = 1;
             cart.push(cartItem);
         }
-        this.setState({inventory: inventory, cart: cart, showCart: false})
+        this.setState({inventory: inventory, cart: cart, showCart: true})
     }
 
     removeFromCart = (id) => {
@@ -50,7 +50,12 @@ class App extends Component {
         const cartItem = { ...this.state.cart[cartIndex] };
         cartItem.quantity -= 1;
         const cart = [...this.state.cart];
-        cart[cartIndex] = cartItem;
+        if (cartItem.quantity === 0) {
+            cart.splice(cartIndex, 1);
+        } else {
+            cart[cartIndex] = cartItem;
+        }
+        
 
 
         const inventoryIndex = this.state.inventory.findIndex(c => {
@@ -61,7 +66,7 @@ class App extends Component {
         inventoryItem.quantity += 1;
         inventory[inventoryIndex] = inventoryItem;
     
-        this.setState({inventory: inventory, cart: cart, showCart: true})
+        this.setState({inventory: inventory, cart: cart, showCart: false})
     }
 
     toggleCart = () => {
@@ -71,16 +76,19 @@ class App extends Component {
 
     render() {
         let items = null;
+        let buttonText;
         if (this.state.showCart) {
             items = <Cart list={this.state.cart} clicked={this.removeFromCart} />
+            buttonText = "Show Inventory"
         } else {
             items = <Inventory list={this.state.inventory} clicked={this.addToCart} />
+            buttonText = "View Cart"
         }
 
         return (
             <div className="App">
                 <h1>Hi, Welcome to our shop</h1>
-                <button onClick={this.toggleCart} className="btn btn-primary">Toggle Cart</button>
+                <button onClick={this.toggleCart} className="btn btn-primary">{buttonText}</button>
                 {items}
             </div>
         )
