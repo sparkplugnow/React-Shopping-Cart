@@ -66,7 +66,7 @@ class App extends Component {
         inventoryItem.quantity += 1;
         inventory[inventoryIndex] = inventoryItem;
     
-        this.setState({inventory: inventory, cart: cart, showCart: false})
+        this.setState({inventory: inventory, cart: cart, showCart: true})
     }
 
     toggleCart = () => {
