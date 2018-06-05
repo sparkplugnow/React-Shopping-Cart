@@ -1,7 +1,7 @@
 import React from 'react'
 import Item from './Items/Items';
 
-const itemlist = (props) => {
+const Itemlist = (props) => {
     
     return (
         <div className="row">
@@ -20,4 +20,4 @@ const itemlist = (props) => {
 
 }
 
-export default itemlist;
+export default Itemlist;

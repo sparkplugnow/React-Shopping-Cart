@@ -1,6 +1,6 @@
 import React from 'react';
 
-const items = (props) => {
+const Items = (props) => {
     if(props.total === "true") {
        return ( 
            <div className="col-md-4">
@@ -43,4 +43,4 @@ const items = (props) => {
     }
 }
 
-export default items;
+export default Items;

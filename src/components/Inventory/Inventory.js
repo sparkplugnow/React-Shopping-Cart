@@ -1,6 +1,6 @@
 import React from "react";
 import ItemList from "../Item-list/Item-list";
-const inventory = props => {
+const Inventory = props => {
   return (
     <div className="container">
         <p></p>
@@ -9,4 +9,4 @@ const inventory = props => {
   );
 };
 
-export default inventory;
+export default Inventory;
